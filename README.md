@@ -1,4 +1,10 @@
-# Prometheus OpenVPN exporter
+# openvpn_exporter
+
+[![github-actions](https://github.com/theohbrothers/openvpn_exporter/workflows/ci/badge.svg)](https://github.com/theohbrothers/openvpn_exporter/actions)
+[![github-tag](https://img.shields.io/github/tag/theohbrothers/openvpn_exporter)](https://github.com/theohbrothers/openvpn_exporter/releases/)
+[![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/openvpn_exporter/latest)](https://hub.docker.com/r/theohbrothers/openvpn_exporter)
+[![codecov](https://codecov.io/gh/theohbrothers/openvpn_exporter/branch/master/graph/badge.svg)](https://codecov.io/gh/theohbrothers/openvpn_exporter)
+[![go-report-card](https://goreportcard.com/badge/github.com/theohbrothers/openvpn_exporter)](https://goreportcard.com/report/github.com/theohbrothers/openvpn_exporter)
 
 This repository provides code for a simple Prometheus metrics exporter
 for [OpenVPN](https://openvpn.net/). Right now it can parse files
@@ -81,7 +87,7 @@ To use with docker you must mount your status file to `/etc/openvpn_exporter/ser
 ```sh
 docker run -p 9176:9176 \
   -v /path/to/openvpn_server.status:/etc/openvpn_exporter/server.status \
-  kumina/openvpn-exporter -openvpn.status_paths /etc/openvpn_exporter/server.status
+  theohbrothers/openvpn-exporter -openvpn.status_paths /etc/openvpn_exporter/server.status
 ```
 
 Metrics should be available at http://localhost:9176/metrics.
@@ -89,13 +95,20 @@ Metrics should be available at http://localhost:9176/metrics.
 ## Get a standalone executable binary
 
 You can download the pre-compiled binaries from the
-[releases page](https://github.com/kumina/openvpn_exporter/releases).
+[releases page](https://github.com/theohbrothers/openvpn_exporter/releases).
 
 ## Development
 
 Requires `make`, `docker`, and `docker-compose` if you want all `make` commands to be working.
 
 Requires [`go`](https://golang.org/doc/install) only if you are developing.
+
+Add a `vscode/settings.json` with an absolute path to the project's `GOPATH`:
+
+```json
+    "go.gopath": "/path/to/theohbrothers/openvpn_exporter/.go"
+
+```
 
 #### Mount a ramdisk on `./.go/bin`
 
