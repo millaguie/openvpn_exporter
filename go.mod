@@ -11,3 +11,5 @@ require (
 	github.com/prometheus/procfs v0.0.0-20181005140218-185b4288413d // indirect
 	golang.org/x/sync v0.0.0-20181108010431-42b317875d0f // indirect
 )
+
+replace github.com/kumina/openvpn_exporter v0.3.0 => github.com/theohbrothers/openvpn_exporter v0.3.0
