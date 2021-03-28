@@ -35,5 +35,5 @@ RUN apk --no-cache add ca-certificates
 ARG OUTBIN
 COPY --from=builder $OUTBIN /$BIN
 ENV BIN=$BIN
-ENTRYPOINT /$BIN
+ENTRYPOINT [ "/openvpn_exporter" ]
 EXPOSE 9176
