@@ -1,0 +1,101 @@
+version: '2.2'
+services:
+  # See metrics: http://localhost:9176/metrics
+  openvpn_exporter:
+    image: busybox
+    ports:
+      - 9176:9176
+    volumes:
+      - ${OUTBIN?:err}:/${BIN?:err}
+      - server:/etc/openvpn:ro
+    entrypoint: /${BIN?:err}
+    command:
+      - -openvpn.status_paths=/etc/openvpn/server.status
+
+  openvpn:
+    image: theohbrothers/docker-openvpn:latest
+    depends_on:
+      - easyrsa
+    ports:
+      - 1194:1194/udp
+    volumes:
+      - server:/etc/openvpn
+    cap_add:
+      - NET_ADMIN
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - |
+          set -eu
+          while [ ! -f /etc/openvpn/server.conf ]; do echo "Waiting for /etc/openvpn/server.conf to be generated"; sleep 3; done
+          exec /docker-entrypoint.sh
+
+  # This generates the pki and server.conf
+  easyrsa:
+    image: theohbrothers/docker-easyrsa:latest
+    environment:
+      - EASYRSA_PKI=/pki/pki
+      - EASYRSA_KEY_SIZE=4096
+      - EASYRSA_BATCH=true
+    stop_signal: SIGKILL
+    volumes:
+      - pki:/pki
+      - server:/etc/openvpn
+    entrypoint:
+      - /bin/sh
+    command:
+      - -c
+      - |
+          set -eu
+
+          echo "Removing /etc/openvpn/server.conf"
+          rm -fv /etc/openvpn/server.conf
+
+          echo "Generating pki"
+          ./easyrsa init-pki # Danger: This removes the existing pki!
+          ./easyrsa build-ca nopass
+          ./easyrsa build-server-full server nopass
+          ./easyrsa gen-crl
+
+          echo "Generating /etc/openvpn/server.conf"
+          cat - > /etc/openvpn/server.conf <<EOF
+          # See sample config file: https://github.com/OpenVPN/openvpn/blob/v2.4.8/sample/sample-config-files/server.conf
+          port 1194
+          proto udp
+          dev tun
+          server 10.8.0.0 255.255.255.0
+          route 10.8.0.0 255.255.255.0
+          ifconfig-pool-persist tun-ipp.txt
+          keepalive 10 120
+          comp-lzo no
+          max-clients 5
+          user nobody
+          group nogroup
+          persist-key
+          persist-tun
+          status server.status
+          status-version 3
+          ;log-append tun.log
+          verb 4
+          mute 20
+          ;duplicate-cn
+          tls-version-min 1.2
+          cipher AES-256-GCM
+          auth SHA512
+          dh none
+          key-direction 0
+          <ca>
+          $$( cat /pki/pki/ca.crt )
+          </ca>
+          <cert>
+          $$( cat "/pki/pki/issued/server.crt" )
+          </cert>
+          <key>
+          $$( cat "/pki/pki/private/server.key" )
+          </key>
+          EOF
+
+volumes:
+  pki:
+  server:
