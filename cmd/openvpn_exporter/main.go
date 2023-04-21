@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/kumina/openvpn_exporter/exporters"
+	"github.com/kumina/openvpn_exporter/pkg/exporters"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
