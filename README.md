@@ -61,17 +61,17 @@ openvpn_server_connected_clients 1
 
 ## Usage
 
-Usage of openvpn_exporter:
-
 ```sh
+  -ignore.individuals
+        If ignoring metrics for individuals
   -openvpn.status_paths string
-    	Paths at which OpenVPN places its status files. (default "examples/client.status,examples/server2.status,examples/server3.status")
+        Paths at which OpenVPN places its status files. (default "examples/client.status,examples/server2.status,examples/server3.status")
+  -version
+        Show version information and exit
   -web.listen-address string
-    	Address to listen on for web interface and telemetry. (default ":9176")
+        Address to listen on for web interface and telemetry. (default ":9176")
   -web.telemetry-path string
-    	Path under which to expose metrics. (default "/metrics")
-  -ignore.individuals bool
-        If ignoring metrics for individuals (default false)
+        Path under which to expose metrics. (default "/metrics")
 ```
 
 E.g:
