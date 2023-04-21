@@ -19,7 +19,9 @@ set -eu
 export CGO_ENABLED=0
 export GOARCH="${ARCH}"
 export GOOS="${OS}"
-export GO111MODULE="${GO111MODULE}"
 export GOFLAGS="$GOFLAGS"
+export GO111MODULE=on
+export BIN="$BIN"
+export OUTBIN="$OUTBIN"
 
-go build -o "$OUTBIN" -ldflags "-s -w -extldflags \"-static\""
+go build -o "$OUTBIN" -ldflags "-s -w -extldflags \"-static\" -X $(go list -m)/pkg/version.VERSION=$VERSION -X $(go list -m)/pkg/version.COMMIT_SHA1=$COMMIT_SHA1 -X $(go list -m)/pkg/version.BUILD_DATE=$BUILD_DATE" ./cmd/$BIN

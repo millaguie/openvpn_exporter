@@ -1,7 +1,7 @@
 # openvpn_exporter
 
 [![github-actions](https://github.com/theohbrothers/openvpn_exporter/workflows/ci/badge.svg)](https://github.com/theohbrothers/openvpn_exporter/actions)
-[![github-tag](https://img.shields.io/github/tag/theohbrothers/openvpn_exporter)](https://github.com/theohbrothers/openvpn_exporter/releases/)
+[![github-release](https://img.shields.io/github/v/release/theohbrothers/openvpn_exporter?style=flat-square)](https://github.com/theohbrothers/openvpn_exporter/releases/)
 [![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/openvpn_exporter/latest)](https://hub.docker.com/r/theohbrothers/openvpn_exporter)
 [![codecov](https://codecov.io/gh/theohbrothers/openvpn_exporter/branch/master/graph/badge.svg)](https://codecov.io/gh/theohbrothers/openvpn_exporter)
 [![go-report-card](https://goreportcard.com/badge/github.com/theohbrothers/openvpn_exporter)](https://goreportcard.com/report/github.com/theohbrothers/openvpn_exporter)
@@ -109,63 +109,28 @@ Requires `make`, `docker`, and `docker-compose` if you want all `make` commands 
 
 Requires [`go`](https://golang.org/doc/install) only if you are developing.
 
-Add a `vscode/settings.json` with an absolute path to the project's `GOPATH`:
-
-```json
-    "go.gopath": "/path/to/theohbrothers/openvpn_exporter/.go"
-
-```
-
-#### Mount a ramdisk on `./.go/bin`
-
 ```sh
-make mount-ramdisk
-```
+# Print usage
+make help
 
-#### Build
-
-```sh
-make build  # Defaults to linux amd64
+# Build
+make build # Defaults to linux amd64
 make build GOOS=linux GOARCH=arm64 # For arm64
-# etc...
-```
 
-#### Build and run
-
-```sh
-make up     # Defaults to linux amd64
-make up GOOS=linux GOARCH=arm64 # For arm64
-# etc...
-```
-
-#### Build docker image
-
-```sh
-make build-image    # Defaults to linux amd64
+# Build docker image
+make build-image # Defaults to linux amd64
 make build-image GOOS=linux GOARCH=arm64 # For arm64
-# etc...
-```
 
-#### Test
+# Build multiarch docker images
+make buildx-image # Build
+make buildx-image REGISTRY=xxx REGISTRY_USER=xxx BUILDX_PUSH=true BUILDX_TAG_LATEST=true # Build and push
 
-```sh
-make test
-```
-
-#### Clean
-
-```sh
-make clean
-```
-
-#### Unmount ramdisk on `./.go/bin`
-
-```sh
-make unmount-ramdisk
-```
-
-#### Shell
-
-```sh
+# Start a shell in a container
 make shell
+
+# Test
+make test
+
+# Cleanup
+make clean
 ```
