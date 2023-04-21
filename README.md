@@ -77,23 +77,18 @@ Usage of openvpn_exporter:
 E.g:
 
 ```sh
-openvpn_exporter -openvpn.status_paths /etc/openvpn/openvpn-status.log
+openvpn_exporter -openvpn.status_paths /etc/openvpn/server.status
 ```
 
 ## Docker
 
-To use with docker you must mount your status file to `/etc/openvpn_exporter/server.status`.
+To use with docker, the `openvpn` server status file must be mounted in the container.
 
 ```sh
-# darwin
-docker run -p 9176:9176 \
-  -v /path/to/openvpn_server.status:/etc/openvpn_exporter/server.status \
-  theohbrothers/openvpn_exporter:vX.X.X-darwin-amd64 -openvpn.status_paths /etc/openvpn_exporter/server.status
-
-# linux
-docker run -p 9176:9176 \
-  -v /path/to/openvpn_server.status:/etc/openvpn_exporter/server.status \
-  theohbrothers/openvpn_exporter:vX.X.X-linux-amd64 -openvpn.status_paths /etc/openvpn_exporter/server.status
+docker run --rm \
+  -p 9176:9176 \
+  -v /etc/openvpn/server.status:/server.status:ro \
+  theohbrothers/openvpn_exporter:latest -openvpn.status_paths /server.status
 ```
 
 Metrics should be available at http://localhost:9176/metrics.
