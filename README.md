@@ -1,6 +1,6 @@
 # openvpn_exporter
 
-[![github-actions](https://github.com/theohbrothers/openvpn_exporter/actions/workflows/ci-master-pr.yml/badge.svg?branch=master)](https://github.com/theohbrothers/openvpn_exporter/actions/workflows/ci-master-pr.yml)
+[![github-actions](https://github.com/theohbrothers/openvpn_exporter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/theohbrothers/openvpn_exporter/actions/workflows/ci.yml)
 [![github-release](https://img.shields.io/github/v/release/theohbrothers/openvpn_exporter?style=flat-square)](https://github.com/theohbrothers/openvpn_exporter/releases/)
 [![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/openvpn_exporter/latest)](https://hub.docker.com/r/theohbrothers/openvpn_exporter)
 [![codecov](https://codecov.io/gh/theohbrothers/openvpn_exporter/branch/master/graph/badge.svg)](https://codecov.io/gh/theohbrothers/openvpn_exporter)
